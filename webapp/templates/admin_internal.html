@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}GePP Admin - Internal Systems{% endblock %}
+{% block navigation %}{% endblock %}
+{% block ticker %}{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 p-0">
+            <div class="admin-sidebar">
+                <div class="px-3 pb-3 mb-3" style="border-bottom: 1px solid rgba(255,255,255,0.08);"><small style="color: var(--govt-gold);">Admin Panel</small></div>
+                <ul class="nav flex-column">
+                    <li><a class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                    <li><a class="nav-link" href="{{ url_for('admin_tenders') }}"><i class="fas fa-file-alt me-2"></i>Manage Tenders</a></li>
+                    <li><a class="nav-link" href="{{ url_for('admin_vendors') }}"><i class="fas fa-users me-2"></i>Registered Vendors</a></li>
+                    <li><a class="nav-link active" href="{{ url_for('admin_internal') }}"><i class="fas fa-server me-2"></i>Internal Systems</a></li>
+                    <li><a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10 p-4" style="background: var(--govt-light-bg);">
+            <h4 style="color: var(--govt-blue); font-weight: 700;"><i class="fas fa-server me-2"></i>Internal Systems Registry</h4>
+            <div class="alert alert-danger small mt-2">
+                <i class="fas fa-shield-alt me-1"></i>
+                <strong>CLASSIFIED — INTERNAL USE ONLY</strong> — This page contains sensitive infrastructure details.
+                Unauthorized disclosure is a violation of the Official Secrets Act.
+            </div>
+            {% for sys in systems %}
+            <div class="card mb-3" {% if 'Tomcat' in sys.service %}style="border: 2px solid #dc3545;"{% endif %}>
+                <div class="card-header d-flex justify-content-between align-items-center"
+                     style="background: {% if 'Tomcat' in sys.service %}#fff3f3{% else %}#f8f9fa{% endif %};">
+                    <div>
+                        <strong>{{ sys.system_name }}</strong>
+                        {% if 'Tomcat' in sys.service %}
+                        <span class="badge bg-danger ms-2"></span>
+                        {% endif %}
+                    </div>
+                    <span class="badge {% if sys.status == 'Active' %}bg-success{% else %}bg-secondary{% endif %}">{{ sys.status }}</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-sm table-bordered">
+                                <tr><th style="width:35%;">Hostname</th><td><code>{{ sys.hostname }}</code></td></tr>
+                                <tr><th>IP Address</th><td><code>{{ sys.ip_address }}</code></td></tr>
+                                <tr><th>Port</th><td><code>{{ sys.port }}</code></td></tr>
+                                <tr><th>Service</th><td>{{ sys.service }}</td></tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-sm table-bordered">
+                                <tr><th style="width:35%;">Platform</th><td>{{ sys.platform }}</td></tr>
+                                <tr><th>Credentials</th><td><code style="color: #dc3545;">{{ sys.credentials }}</code></td></tr>
+                                <tr><th>Last Checked</th><td>{{ sys.last_checked }}</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    {% if sys.notes %}
+                    <div class="mt-2 p-2" style="background: #f8f9fa; border-radius: 4px; font-size: 0.88rem;">
+                        <i class="fas fa-sticky-note me-1 text-muted"></i>{{ sys.notes }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

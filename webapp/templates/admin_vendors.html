@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}GePP Admin - Vendors{% endblock %}
+{% block navigation %}{% endblock %}
+{% block ticker %}{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 p-0">
+            <div class="admin-sidebar">
+                <div class="px-3 pb-3 mb-3" style="border-bottom: 1px solid rgba(255,255,255,0.08);"><small style="color: var(--govt-gold);">Admin Panel</small></div>
+                <ul class="nav flex-column">
+                    <li><a class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                    <li><a class="nav-link" href="{{ url_for('admin_tenders') }}"><i class="fas fa-file-alt me-2"></i>Manage Tenders</a></li>
+                    <li><a class="nav-link active" href="{{ url_for('admin_vendors') }}"><i class="fas fa-users me-2"></i>Registered Vendors</a></li>
+                    <li><a class="nav-link" href="{{ url_for('admin_internal') }}"><i class="fas fa-server me-2"></i>Internal Systems</a></li>
+                    <li><a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10 p-4" style="background: var(--govt-light-bg);">
+            <h4 style="color: var(--govt-blue); font-weight: 700;"><i class="fas fa-users me-2"></i>Registered Vendors</h4>
+            <div class="alert alert-info small mt-2"><i class="fas fa-info-circle me-1"></i>Showing all registered vendor accounts with credentials and financial identifiers.</div>
+            <div class="card mt-3">
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0 govt-table">
+                        <thead><tr><th>ID</th><th>Username</th><th>Company</th><th>Contact</th><th>Email</th><th>GST No.</th><th>PAN</th><th>Status</th></tr></thead>
+                        <tbody>
+                            {% for v in vendors %}
+                            <tr>
+                                <td>{{ v.id }}</td>
+                                <td><code>{{ v.username }}</code></td>
+                                <td>{{ v.company_name }}</td>
+                                <td>{{ v.contact_person }}</td>
+                                <td>{{ v.email }}</td>
+                                <td class="small">{{ v.gst_number }}</td>
+                                <td class="small">{{ v.pan_number }}</td>
+                                <td><span class="badge bg-success">{{ v.registration_status }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}GePP - Government e-Procurement Portal | Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section style="background: linear-gradient(135deg, #003366 0%, #0d2847 50%, #1a4a7a 100%); padding: 60px 0; color: #fff;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <h2 style="font-weight: 800; font-size: 2rem;">Transparent, Efficient, Digital Procurement</h2>
+                <p class="mt-3" style="color: #b8c9de; font-size: 1.05rem; line-height: 1.7;">
+                    GePP enables government departments to publish tenders and empowers registered vendors
+                    to submit bids electronically — ensuring transparency, competition, and value for public money.
+                </p>
+                <div class="mt-4">
+                    <a href="{{ url_for('tenders') }}" class="btn btn-warning btn-lg me-2" style="font-weight: 600;">
+                        <i class="fas fa-search me-1"></i>View Active Tenders
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-sign-in-alt me-1"></i>Vendor Login
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-5 text-center d-none d-md-block">
+                <i class="fas fa-university" style="font-size: 10rem; color: rgba(255,255,255,0.08);"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Row -->
+<section class="py-4" style="background: #fff; border-bottom: 1px solid #e0e6ed;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-card border-0 shadow-none p-2">
+                    <div class="stat-number">1,247</div>
+                    <div class="stat-label">Tenders Published</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card border-0 shadow-none p-2">
+                    <div class="stat-number">856</div>
+                    <div class="stat-label">Registered Vendors</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card border-0 shadow-none p-2">
+                    <div class="stat-number">₹4,520 Cr</div>
+                    <div class="stat-label">Procurement Value</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card border-0 shadow-none p-2">
+                    <div class="stat-number">38</div>
+                    <div class="stat-label">Departments</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Active Tenders -->
+<section class="main-content">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 style="color: var(--govt-blue); font-weight: 700;">
+                <i class="fas fa-file-contract me-2"></i>Latest Active Tenders
+            </h4>
+            <a href="{{ url_for('tenders') }}" class="btn btn-sm btn-outline-primary">View All Tenders →</a>
+        </div>
+
+        <div class="row">
+            {% for tender in tenders %}
+            <div class="col-md-6 mb-3">
+                <div class="card tender-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge bg-secondary" style="font-size: 0.72rem;">{{ tender.tender_number }}</span>
+                            <span class="badge {% if tender.status == 'Open' %}badge-open{% else %}badge-closed{% endif %}">
+                                {{ tender.status }}
+                            </span>
+                        </div>
+                        <h6 class="card-title" style="color: #1a3a5c; font-weight: 600;">{{ tender.title }}</h6>
+                        <p class="text-muted small mb-2">
+                            <i class="fas fa-building me-1"></i>{{ tender.department }}
+                        </p>
+                        <div class="d-flex justify-content-between small text-muted">
+                            <span><i class="fas fa-rupee-sign me-1"></i>Est: ₹{{ "%.0f"|format(tender.estimated_value / 100000) }} Lakh</span>
+                            <span><i class="fas fa-calendar me-1"></i>Deadline: {{ tender.deadline }}</span>
+                        </div>
+                        <a href="{{ url_for('tender_detail', tender_id=tender.id) }}" class="btn btn-sm btn-govt mt-3 w-100">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Important Notice -->
+        <div class="card mt-4" style="border-left: 4px solid var(--govt-orange); background: #fff8f0;">
+            <div class="card-body">
+                <h6 style="color: var(--govt-orange);"><i class="fas fa-exclamation-triangle me-2"></i>Important Notice</h6>
+                <p class="mb-0 small">
+                    Vendors are advised to verify their digital signatures before bid submission. All bids must be
+                    submitted electronically through this portal. Manual or paper-based bids will not be accepted.
+                    For technical assistance, contact the GePP Helpdesk at 1800-XXX-XXXX.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

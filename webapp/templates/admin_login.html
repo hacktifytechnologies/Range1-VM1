@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}GePP - Administrator Login{% endblock %}
+{% block ticker %}{% endblock %}
+{% block content %}
+<div class="main-content">
+    <div class="login-container">
+        <div class="login-header" style="background: linear-gradient(135deg, #1a0a0a 0%, #3d0000 100%);">
+            <i class="fas fa-user-shield fa-3x mb-3" style="color: #ff6666;"></i>
+            <h3>Administration Panel</h3>
+            <p class="mb-0 mt-1" style="color: #cc9999; font-size: 0.85rem;">Authorized Personnel Only</p>
+        </div>
+        <div class="login-body">
+            <div class="alert alert-warning small py-2">
+                <i class="fas fa-exclamation-triangle me-1"></i>
+                <strong>WARNING:</strong> Unauthorized access to this system is prohibited under IT Act 2000, Section 66.
+            </div>
+            <form method="POST" action="{{ url_for('admin_login') }}">
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted">ADMIN USERNAME</label>
+                    <div class="input-group">
+                        <span class="input-group-text" style="background: #3d0000; color: #ff9999; border-color: #660000;">
+                            <i class="fas fa-user-cog"></i>
+                        </span>
+                        <input type="text" name="username" class="form-control" placeholder="Administrator ID" required
+                            style="border-color: #ddd;">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small fw-semibold text-muted">ADMIN PASSWORD</label>
+                    <div class="input-group">
+                        <span class="input-group-text" style="background: #3d0000; color: #ff9999; border-color: #660000;">
+                            <i class="fas fa-key"></i>
+                        </span>
+                        <input type="password" name="password" class="form-control" placeholder="Password" required
+                            style="border-color: #ddd;">
+                    </div>
+                </div>
+                <button type="submit" class="btn w-100 py-2" style="background: #8b0000; color: #fff; font-weight: 600;">
+                    <i class="fas fa-unlock-alt me-2"></i>Access Admin Panel
+                </button>
+            </form>
+            <div class="mt-3 text-center">
+                <a href="{{ url_for('index') }}" class="small text-muted">
+                    <i class="fas fa-arrow-left me-1"></i>Return to Public Portal
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

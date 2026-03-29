@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}GePP - Vendor Login{% endblock %}
+{% block ticker %}{% endblock %}
+{% block content %}
+<div class="main-content">
+    <div class="login-container">
+        <div class="login-header">
+            <i class="fas fa-user-circle fa-3x mb-3"></i>
+            <h3>Vendor Portal Login</h3>
+            <p class="mb-0 mt-1" style="color: #8899aa; font-size: 0.85rem;">Registered Vendor Access</p>
+        </div>
+        <div class="login-body">
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted">USERNAME</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" name="username" class="form-control" placeholder="Enter your username" required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small fw-semibold text-muted">PASSWORD</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-govt w-100 py-2">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login to Portal
+                </button>
+            </form>
+            <div class="mt-4 text-center small">
+                <a href="#" class="text-muted">Forgot Password?</a> |
+                <a href="#" class="text-muted">New Vendor Registration</a>
+            </div>
+            <!-- Intentional hint for the red teamer to discover default credentials -->
+            <!-- TODO: Remove default test account before production deployment -->
+            <!-- Test credentials: procurement / procurement123 -->
+            <div class="mt-4 p-3" style="background: #f8f9fa; border-radius: 4px; border: 1px dashed #ccc;">
+                <p class="mb-0 small text-muted text-center">
+                    <i class="fas fa-info-circle me-1"></i>
+                    For demo/testing: Contact NIC Helpdesk for test account access.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

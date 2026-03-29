@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}GePP - {{ tender.title }}{% endblock %}
+{% block content %}
+<div class="page-header-banner">
+    <div class="container">
+        <h2><i class="fas fa-file-contract me-2"></i>Tender Details</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('tenders') }}">Tenders</a></li>
+                <li class="breadcrumb-item active">{{ tender.tender_number }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="main-content">
+    <div class="container">
+        <div class="card">
+            <div class="card-header" style="background: var(--govt-blue); color: #fff;">
+                <h5 class="mb-0">{{ tender.title }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-bordered">
+                            <tr><th style="width:40%;">Tender Number</th><td>{{ tender.tender_number }}</td></tr>
+                            <tr><th>Department</th><td>{{ tender.department }}</td></tr>
+                            <tr><th>Category</th><td>{{ tender.category }}</td></tr>
+                            <tr><th>Status</th><td>
+                                <span class="badge {% if tender.status == 'Open' %}bg-success{% else %}bg-danger{% endif %}">{{ tender.status }}</span>
+                            </td></tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-bordered">
+                            <tr><th style="width:40%;">Estimated Value</th><td>₹{{ "%.2f"|format(tender.estimated_value) }}</td></tr>
+                            <tr><th>Earnest Money (EMD)</th><td>₹{{ "%.2f"|format(tender.earnest_money) }}</td></tr>
+                            <tr><th>Published Date</th><td>{{ tender.published_date }}</td></tr>
+                            <tr><th>Submission Deadline</th><td><strong class="text-danger">{{ tender.deadline }}</strong></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <h6 class="mt-3" style="color: var(--govt-blue);">Description</h6>
+                <p>{{ tender.description }}</p>
+                {% if session.get('username') %}
+                <a href="#" class="btn btn-govt"><i class="fas fa-paper-plane me-1"></i>Submit Bid</a>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-1"></i>Please <a href="{{ url_for('login') }}">login as a vendor</a> to submit a bid.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

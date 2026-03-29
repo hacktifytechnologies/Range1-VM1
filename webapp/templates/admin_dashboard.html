@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}GePP Admin - Dashboard{% endblock %}
+{% block navigation %}{% endblock %}
+{% block ticker %}{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 p-0">
+            <div class="admin-sidebar">
+                <div class="px-3 pb-3 mb-3" style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <small style="color: var(--govt-gold); text-transform: uppercase; letter-spacing: 0.08em;">Admin Panel</small>
+                    <div class="text-white mt-1">{{ session.admin_user }}</div>
+                </div>
+                <ul class="nav flex-column">
+                    <li><a class="nav-link active" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                    <li><a class="nav-link" href="{{ url_for('admin_tenders') }}"><i class="fas fa-file-alt me-2"></i>Manage Tenders</a></li>
+                    <li><a class="nav-link" href="{{ url_for('admin_vendors') }}"><i class="fas fa-users me-2"></i>Registered Vendors</a></li>
+                    <li><a class="nav-link" href="{{ url_for('admin_internal') }}"><i class="fas fa-server me-2"></i>Internal Systems</a></li>
+                    <li><a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10 p-4" style="background: var(--govt-light-bg);">
+            <h4 style="color: var(--govt-blue); font-weight: 700;"><i class="fas fa-tachometer-alt me-2"></i>Administration Dashboard</h4>
+            <p class="text-muted mb-4">Procurement management overview</p>
+            <div class="row mb-4">
+                <div class="col-md-3"><div class="stat-card"><div class="stat-number">{{ stats.total_tenders }}</div><div class="stat-label">Total Tenders</div></div></div>
+                <div class="col-md-3"><div class="stat-card" style="border-top-color: var(--govt-green);"><div class="stat-number" style="color: var(--govt-green);">{{ stats.open_tenders }}</div><div class="stat-label">Open Tenders</div></div></div>
+                <div class="col-md-3"><div class="stat-card" style="border-top-color: var(--govt-orange);"><div class="stat-number" style="color: var(--govt-orange);">{{ stats.total_vendors }}</div><div class="stat-label">Vendors</div></div></div>
+                <div class="col-md-3"><div class="stat-card" style="border-top-color: #6f42c1;"><div class="stat-number" style="color: #6f42c1;">{{ stats.total_bids }}</div><div class="stat-label">Total Bids</div></div></div>
+            </div>
+            <div class="card">
+                <div class="card-header" style="background: var(--govt-blue); color: #fff;">
+                    <h6 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Bid Activity</h6>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0 govt-table">
+                        <thead><tr><th>Vendor</th><th>Tender</th><th>Amount</th><th>Score</th><th>Status</th><th>Date</th></tr></thead>
+                        <tbody>
+                            {% for bid in recent_bids %}
+                            <tr>
+                                <td>{{ bid.vendor_name }}</td>
+                                <td style="max-width:200px;">{{ bid.tender_title }}</td>
+                                <td>₹{{ "%.2f"|format(bid.bid_amount) }}</td>
+                                <td>{{ bid.technical_score }}</td>
+                                <td><span class="badge bg-info">{{ bid.status }}</span></td>
+                                <td>{{ bid.submitted_at }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
